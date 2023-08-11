@@ -12,6 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: GeolocationApp(),
     );
   }
@@ -25,18 +26,12 @@ class GeolocationApp extends StatefulWidget {
 }
 
 class _GeolocationAppState extends State<GeolocationApp> {
-  // add dependencies: geolocator, geocoding
-  // add permission in manifest
-  // run
-  // variable always inside the class
-  Position? _currentLocation;
+  
   late bool servicePermission = false;
   late LocationPermission permission;
 
-  String _currentAddress = "";
-
   Future<Position> _getCurrentLocation() async {
-    // check if we have permission to access location service
+    // periksa apakah memiliki izin untuk mengakses layanan lokasi
     servicePermission = await Geolocator.isLocationServiceEnabled();
     if (!servicePermission) {
       print("Service Disabled");
@@ -49,9 +44,9 @@ class _GeolocationAppState extends State<GeolocationApp> {
     return await Geolocator.getCurrentPosition();
   }
 
-  // test app
-
-  // geocode coordinate and convert into address
+  Position? _currentLocation;
+  String _currentAddress = "";
+  // geocode koordinat dan konversi menjadi alamat
   _getAddressFromCoordinates() async {
     try {
       List<Placemark> placesmarks = await placemarkFromCoordinates(
@@ -69,13 +64,11 @@ class _GeolocationAppState extends State<GeolocationApp> {
 
   @override
   Widget build(BuildContext context) {
-    // logic of the app
-
-    // basic ui
     return Scaffold(
       appBar: AppBar(
         title: Text("Get User Location"),
         centerTitle: true,
+        backgroundColor: Colors.pinkAccent,
       ),
       body: Center(
           child: Column(
@@ -91,6 +84,7 @@ class _GeolocationAppState extends State<GeolocationApp> {
           ),
           SizedBox(height: 6),
           Text(
+            // menampilkan titik latitude, longitude
               "Latitude = ${_currentLocation?.latitude} ; Longitude = ${_currentLocation?.longitude}"),
           SizedBox(
             height: 30.0,
@@ -103,18 +97,23 @@ class _GeolocationAppState extends State<GeolocationApp> {
             ),
           ),
           SizedBox(height: 6),
-          Text("${_currentAddress}"),
+          Text(
+            // menampilkan alamat
+            "${_currentAddress}"),
           SizedBox(
             height: 50.0,
           ),
           ElevatedButton(
               onPressed: () async {
-                // get current location here
                 _currentLocation = await _getCurrentLocation();
                 await _getAddressFromCoordinates();
+                // print untuk mengecek hasil pada console
                 print("${_currentLocation}");
                 print("${_currentAddress}");
               },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.pinkAccent
+              ),
               child: Text("Get Location"))
         ],
       )),
