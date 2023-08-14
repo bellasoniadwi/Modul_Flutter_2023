@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterfirebase/pages/crud_page.dart';
+import 'package:flutterfirebase/pages/home_page.dart';
 import 'package:flutterfirebase/pages/login_page.dart';
 
 class AuthPage extends StatefulWidget {
@@ -23,7 +23,7 @@ class _AuthPageState extends State<AuthPage> {
           } else {
             if (snapshot.hasData) {
               //User is logged in, navigate to the home page
-              return const CrudPage();
+              return const HomePage();
             } else {
               //User is not logged in, navigate to the login page
               return const LoginPage();

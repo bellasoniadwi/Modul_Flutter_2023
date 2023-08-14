@@ -21,7 +21,7 @@ class _CrudPageState extends State<CrudPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('List Item'),
+        title: const Text('CRUD Firebase'),
         actions: [
           IconButton(
             onPressed: () async {
@@ -56,9 +56,11 @@ class _CrudPageState extends State<CrudPage> {
                         children: [
                           IconButton(
                               icon: Icon(Icons.edit),
+                              color: Colors.indigo,
                               onPressed: () => _update(documentSnapshot)),
                           IconButton(
                               icon: Icon(Icons.delete),
+                              color: Colors.red,
                               onPressed: () => _delete(documentSnapshot.id)),
                         ],
                       ),
@@ -77,7 +79,6 @@ class _CrudPageState extends State<CrudPage> {
   }
 
 
-  // Komponen Utama Fungsi CRUD
   Future<void> _update([DocumentSnapshot? documentSnapshot]) async {
     if (documentSnapshot != null) {
       _nameController.text = documentSnapshot['name'];
@@ -87,45 +88,68 @@ class _CrudPageState extends State<CrudPage> {
         isScrollControlled: true,
         context: context,
         builder: (BuildContext ctx) {
-          return Padding(
+          return Container(
             padding: EdgeInsets.only(
-                top: 20,
-                left: 20,
-                right: 20,
-                bottom: MediaQuery.of(ctx).viewInsets.bottom + 20),
+              top: 30,
+              left: 15,
+              right: 15,
+              bottom: MediaQuery.of(context).viewInsets.bottom + 50,
+            ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 TextField(
                   controller: _nameController,
-                  decoration: InputDecoration(labelText: 'Name'),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: "Name",
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
                 ),
                 TextField(
                   controller: _priceController,
-                  decoration: InputDecoration(labelText: 'Price'),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: "Price",
+                  ),
                   inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly // Hanya menerima input angka
+                    FilteringTextInputFormatter.digitsOnly
                   ], 
                   keyboardType: TextInputType.number, // Keyboard tipe angka
                 ),
-                ElevatedButton(
-                  child: Text('Update'),
-                  onPressed: () async {
-                    final String name = _nameController.text;
-                    final String priceString = _priceController.text;
-                    if (name != "" && priceString != "") {
-                      final int price = int.parse(priceString);
+                SizedBox(
+                  height: 20,
+                ),
+                Center(
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      final String name = _nameController.text;
+                      final String priceString = _priceController.text;
+                      if (name != "" && priceString != "") {
+                        final int price = int.parse(priceString);
 
-                      await _products.doc(documentSnapshot!.id).update({
-                        "name": name,
-                        "price": price,
-                      });
-                      _nameController.text = '';
-                      _priceController.text = '';
-                    }
-                  },
-                )
+                        await _products.doc(documentSnapshot!.id).update({
+                          "name": name,
+                          "price": price,
+                        });
+                        _nameController.text = '';
+                        _priceController.text = '';
+                      }
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.all(18),
+                      child: Text("Update Data",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           );
@@ -142,46 +166,69 @@ class _CrudPageState extends State<CrudPage> {
         isScrollControlled: true,
         context: context,
         builder: (BuildContext ctx) {
-          return Padding(
+          return Container(
             padding: EdgeInsets.only(
-                top: 20,
-                left: 20,
-                right: 20,
-                bottom: MediaQuery.of(ctx).viewInsets.bottom + 20),
+              top: 30,
+              left: 15,
+              right: 15,
+              bottom: MediaQuery.of(context).viewInsets.bottom + 50,
+            ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 TextField(
                   controller: _nameController,
-                  decoration: InputDecoration(labelText: 'Name'),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: "Name",
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
                 ),
                 TextField(
                   controller: _priceController,
-                  decoration: InputDecoration(labelText: 'Price'),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: "Price",
+                  ),
                   inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly // Hanya menerima input angka
+                    FilteringTextInputFormatter.digitsOnly
                   ], 
                   keyboardType: TextInputType.number, // Keyboard tipe angka
                 ),
-                ElevatedButton(
-                  child: Text('Add'),
-                  onPressed: () async {
-                    final String name = _nameController.text;
-                    final String priceString = _priceController.text;
-                    
-                    if (name != "" && priceString != "") {
-                      final int price = int.parse(priceString);
+                SizedBox(
+                  height: 20,
+                ),
+                Center(
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      final String name = _nameController.text;
+                      final String priceString = _priceController.text;
+                      
+                      if (name != "" && priceString != "") {
+                        final int price = int.parse(priceString);
 
-                      await _products.add({
-                        "name": name,
-                        "price": price,
-                      });
-                      _nameController.text = '';
-                      _priceController.text = '';
-                    }
-                  },
-                )
+                        await _products.add({
+                          "name": name,
+                          "price": price,
+                        });
+                        _nameController.text = '';
+                        _priceController.text = '';
+                      }
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.all(18),
+                      child: Text("Add data",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      ),
+                    ),
+                  ),
+              ),
               ],
             ),
           );
@@ -193,6 +240,7 @@ class _CrudPageState extends State<CrudPage> {
     await _products.doc(productId).delete();
 
     ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('You have successfully deleted a product')));
+        SnackBar(content: Text('Data produk berhasil dihapus!'),
+        backgroundColor: Colors.pink));
   }
 }

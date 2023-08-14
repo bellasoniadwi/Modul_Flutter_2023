@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Firebase',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.pinkAccent),
+        primarySwatch: Colors.pink
       ),
       home: const AuthPage(),
     );
